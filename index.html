@@ -22,7 +22,7 @@
   .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;max-width:1320px;margin:0 auto 28px;}
   .brand h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;margin:0;line-height:1;}
   .brand p{margin:8px 0 0;color:var(--ink-dim);font-size:14px;max-width:48ch;line-height:1.5;}
-  .controls{display:flex;align-items:flex-end;gap:12px;}
+  .controls{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;}
   .toggle-set{display:flex;flex-wrap:wrap;gap:8px;}
   .tg{display:inline-flex;align-items:center;gap:7px;background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
   .tg:hover{border-color:#3a434f;color:var(--ink);}
@@ -32,6 +32,12 @@
   .tg.tg-all{font-weight:700;}
   .tg.tg-all[aria-pressed="true"]{background:var(--ink);color:#0b0e13;border-color:var(--ink);}
   .tg:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+  .btn-edit{display:inline-flex;align-items:center;gap:7px;background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
+  .btn-edit:hover{border-color:#3a434f;color:var(--ink);}
+  .btn-edit.active{background:#1a2510;color:#00b050;border-color:#00b050;}
+  .btn-save-export{display:none;align-items:center;gap:7px;background:#ff9933;color:#0b0e13;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
+  .btn-save-export:hover{background:#ffaa55;}
+  .btn-save-export.show{display:inline-flex;}
   .board{max-width:1320px;margin:0 auto;}
   .grid-shell{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px 22px 26px;overflow:hidden;}
   .day-head{display:grid;grid-template-columns:58px repeat(7,1fr);gap:10px;margin-bottom:8px;}
@@ -56,6 +62,10 @@
   .ev.dark{color:#15140a;} .ev.dark .sub{opacity:.7;}
   .ev.call{left:auto;right:4px;width:42%;min-height:20px;z-index:6;color:#0b1220;background:#cdd9ee;border:1px solid rgba(11,18,32,.25);box-shadow:0 2px 8px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:2px 4px;}
   .ev.call .t{font-size:10.5px;font-weight:700;line-height:1;text-align:center;}
+  body.edit-mode .ev:not(.freeband-open){cursor:pointer;}
+  body.edit-mode .ev:not(.freeband-open):hover{outline:2px solid rgba(255,255,255,.5);z-index:10;}
+  .edit-badge{display:none;position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#ff9933;color:#0b0e13;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:13px;padding:8px 18px;border-radius:99px;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+  body.edit-mode .edit-badge{display:block;}
   .tallies{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
   @media(max-width:1080px){.tallies{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:560px){.tallies{grid-template-columns:1fr;}}
@@ -77,7 +87,6 @@
   .breakdown .bd-row.zero{color:var(--ink-faint);}
   .hint{max-width:1320px;margin:18px auto 0;color:var(--ink-faint);font-size:12px;text-align:center;}
   code.kbd{background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:"JetBrains Mono",monospace;color:var(--ink-dim);}
-
   .notes{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px 24px 22px;}
   .notes h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;margin:0 0 6px;}
   .notes-lead{color:var(--ink-dim);font-size:13px;line-height:1.55;margin:0 0 20px;max-width:78ch;}
@@ -94,84 +103,159 @@
   .notes-day b{color:var(--homeTaylan);font-weight:600;}
   .notes-next{margin:14px 0 0;font-size:12.5px;line-height:1.55;color:var(--ink-faint);border-top:1px solid var(--line-soft);padding-top:14px;}
   .notes-next em{color:var(--ink);font-style:normal;font-weight:600;}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;}
+  .modal-bg.open{display:flex;}
+  .modal{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;width:360px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+  .modal h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;margin:0 0 18px;color:var(--ink);}
+  .modal label{display:block;font-size:12px;font-weight:600;color:var(--ink-dim);margin-bottom:5px;margin-top:12px;text-transform:uppercase;letter-spacing:.08em;}
+  .modal input,.modal select{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;color:var(--ink);font-size:14px;font-family:"Inter",sans-serif;outline:none;}
+  .modal input:focus,.modal select:focus{border-color:#3d4856;}
+  .modal select option{background:var(--panel-2);}
+  .modal-row{display:flex;gap:10px;}
+  .modal-row .modal-field{flex:1;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+  .modal-actions button{flex:1;padding:10px;border-radius:9px;border:none;font-size:13px;font-weight:700;font-family:"Space Grotesk",sans-serif;cursor:pointer;}
+  .btn-delete{background:#2a1515;color:#ff6b6b;border:1px solid #3a2020!important;}
+  .btn-delete:hover{background:#3a1515;}
+  .btn-cancel{background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line)!important;}
+  .btn-cancel:hover{color:var(--ink);}
+  .btn-confirm{background:#ff9933;color:#0b0e13;}
+  .btn-confirm:hover{background:#ffaa55;}
+  .add-ev-btn{display:none;position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.2);border-radius:7px;color:var(--ink-faint);font-size:11px;font-family:"Space Grotesk",sans-serif;font-weight:600;padding:4px 10px;cursor:pointer;white-space:nowrap;z-index:4;}
+  body.edit-mode .add-ev-btn{display:block;}
+  .add-ev-btn:hover{background:rgba(255,255,255,.12);color:var(--ink);}
+  .export-panel{display:none;max-width:1320px;margin:20px auto 0;background:var(--panel);border:1px solid #3a3320;border-radius:16px;padding:20px 24px;}
+  .export-panel.show{display:block;}
+  .export-panel h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;margin:0 0 10px;color:#ff9933;}
+  .export-panel p{color:var(--ink-dim);font-size:13px;margin:0 0 14px;line-height:1.6;}
+  .export-panel code{display:block;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-family:"JetBrains Mono",monospace;font-size:12px;color:#00b050;margin-bottom:10px;word-break:break-all;}
+  .btn-copy{background:var(--panel-2);border:1px solid var(--line);color:var(--ink-dim);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;}
+  .btn-copy:hover{color:var(--ink);}
+  .btn-copy.copied{color:#00b050;border-color:#00b050;}
 </style>
 </head>
 <body>
-  <header class="top">
-    <div class="brand">
-      <h1>Allocation Board</h1>
-      <p>Five layers, one week, 5:00&#8202;am&#8202;&ndash;&#8202;10:00&#8202;pm waking hours. Work and Home are fixed. The two Ecom layers compute the hours left open &mdash; and exactly where they fall.</p>
+<div class="edit-badge">✏️ Edit Mode — click any block to edit</div>
+<header class="top">
+  <div class="brand">
+    <h1>Allocation Board</h1>
+    <p>Five layers, one week, 5:00&#8202;am&#8202;&ndash;&#8202;10:00&#8202;pm waking hours. Work and Home are fixed. The two Ecom layers compute the hours left open &mdash; and exactly where they fall.</p>
+  </div>
+  <div class="controls">
+    <div class="toggle-set" id="toggleSet" role="group" aria-label="Choose which layers to show">
+      <button class="tg tg-all" data-key="all" aria-pressed="true">All</button>
+      <button class="tg" data-key="homeTaylan" aria-pressed="true"><span class="dot" style="background:#00b050"></span>Home &middot; T</button>
+      <button class="tg" data-key="workTaylan" aria-pressed="true"><span class="dot" style="background:#4a72b0"></span>Work</button>
+      <button class="tg" data-key="homeNihal" aria-pressed="true"><span class="dot" style="background:#ac20db"></span>Home &middot; N</button>
+      <button class="tg" data-key="ecomTaylan" aria-pressed="true"><span class="dot" style="background:#ff9933"></span>Ecom &middot; T</button>
+      <button class="tg" data-key="ecomNihal" aria-pressed="true"><span class="dot" style="background:#fff200"></span>Ecom &middot; N</button>
     </div>
-    <div class="controls">
-      <div class="toggle-set" id="toggleSet" role="group" aria-label="Choose which layers to show">
-        <button class="tg tg-all" data-key="all" aria-pressed="true">All</button>
-        <button class="tg" data-key="homeTaylan" aria-pressed="true"><span class="dot" style="background:#00b050"></span>Home &middot; T</button>
-        <button class="tg" data-key="workTaylan" aria-pressed="true"><span class="dot" style="background:#4a72b0"></span>Work</button>
-        <button class="tg" data-key="homeNihal" aria-pressed="true"><span class="dot" style="background:#ac20db"></span>Home &middot; N</button>
-        <button class="tg" data-key="ecomTaylan" aria-pressed="true"><span class="dot" style="background:#ff9933"></span>Ecom &middot; T</button>
-        <button class="tg" data-key="ecomNihal" aria-pressed="true"><span class="dot" style="background:#fff200"></span>Ecom &middot; N</button>
+    <button class="btn-edit" id="btnEdit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
+    <button class="btn-save-export" id="btnSaveExport" onclick="showExport()">⬇️ Save &amp; Export</button>
+  </div>
+</header>
+<main class="board">
+  <section class="tallies" id="tallies" aria-label="Hours per layer"></section>
+  <section class="grid-shell" aria-label="Weekly calendar">
+    <div class="day-head" id="dayHead"></div>
+    <div class="banner-row" id="bannerRow"></div>
+    <div class="grid-body" id="gridBody"></div>
+  </section>
+  <section class="notes" aria-label="Allocation analysis">
+    <h2>Allocation read &mdash; Taylan</h2>
+    <p class="notes-lead">Ecom is the open time left after Work and Home, with your dead windows stripped out: before 7:30am, the 9&ndash;10:30am depot-to-office gap, and anything after 9pm. Only blocks of 1 hour or more count &mdash; no slivers.</p>
+    <div class="notes-grid">
+      <div class="note-card">
+        <span class="nk">Real ecom open</span>
+        <span class="nv" id="t-total">56.5h<small>/ week</small></span>
+        <p>This is a usable figure now, not a ceiling &mdash; mornings, the depot gap, and post-9pm are excluded, and sub-hour fragments are dropped. What is left is genuine deep-work capacity.</p>
+      </div>
+      <div class="note-card hot">
+        <span class="nk">Thin days</span>
+        <span class="nv">Mon &middot; Thu<small>3.5&ndash;4.5h</small></span>
+        <p>Office 10:30&ndash;4:30 leaves only the 4:30&ndash;9pm evening. One solid block each, nothing more. Protect it.</p>
+      </div>
+      <div class="note-card good">
+        <span class="nk">Deep-work days</span>
+        <span class="nv">Wed &middot; Sun<small>10.5&ndash;12h</small></span>
+        <p>No office. Wed runs 10:30am&ndash;9pm bar the 2pm call; Sun is open 7:30am&ndash;9pm bar gym. These carry your LIARE build.</p>
       </div>
     </div>
-  </header>
-  <main class="board">
-    <section class="tallies" id="tallies" aria-label="Hours per layer"></section>
-    <section class="grid-shell" aria-label="Weekly calendar">
-      <div class="day-head" id="dayHead"></div>
-      <div class="banner-row" id="bannerRow"></div>
-      <div class="grid-body" id="gridBody"></div>
-    </section>
-
-    <section class="notes" aria-label="Allocation analysis">
-      <h2>Allocation read &mdash; Taylan</h2>
-      <p class="notes-lead">Ecom is the open time left after Work and Home, with your dead windows stripped out: before 7:30am, the 9&ndash;10:30am depot-to-office gap, and anything after 9pm. Only blocks of 1 hour or more count &mdash; no slivers.</p>
-      <div class="notes-grid">
-        <div class="note-card">
-          <span class="nk">Real ecom open</span>
-          <span class="nv">56.5h<small>/ week</small></span>
-          <p>This is a usable figure now, not a ceiling &mdash; mornings, the depot gap, and post-9pm are excluded, and sub-hour fragments are dropped. What is left is genuine deep-work capacity.</p>
-        </div>
-        <div class="note-card hot">
-          <span class="nk">Thin days</span>
-          <span class="nv">Mon &middot; Thu<small>3.5&ndash;4.5h</small></span>
-          <p>Office 10:30&ndash;4:30 leaves only the 4:30&ndash;9pm evening. One solid block each, nothing more. Protect it.</p>
-        </div>
-        <div class="note-card good">
-          <span class="nk">Deep-work days</span>
-          <span class="nv">Wed &middot; Sun<small>10.5&ndash;12h</small></span>
-          <p>No office. Wed runs 10:30am&ndash;9pm bar the 2pm call; Sun is open 7:30am&ndash;9pm bar gym. These carry your LIARE build.</p>
-        </div>
+    <p class="notes-day" id="t-perday">Per-day ecom: Mon 4.5h &middot; Tue 9h &middot; <b>Wed 10h</b> &middot; Thu 3.5h &middot; Fri 8h &middot; Sat 9.5h &middot; <b>Sun 12h</b></p>
+    <p class="notes-next">Toggle <em>Ecom &middot; T</em> alone to see these windows shaded on the grid.</p>
+  </section>
+  <section class="notes" aria-label="Allocation analysis Nihal" style="border-color:#3a2540;">
+    <h2 style="color:#c97fe0;">Allocation read &mdash; Nihal</h2>
+    <p class="notes-lead">Her ecom runs 6:30am&ndash;9pm, computed around her Home commitments. The 6:30&ndash;8am morning block is reserved daily (her preference). Sub-hour gaps are dropped &mdash; only 1hr+ windows count as real work time.</p>
+    <div class="notes-grid">
+      <div class="note-card">
+        <span class="nk">Real ecom open</span>
+        <span class="nv" id="n-total">56h<small>/ week</small></span>
+        <p>After filtering slivers, capping at 9pm, and clearing Sunday (rest day), this is her usable weekly capacity. The daily 6:30&ndash;8am block is her most reliable, protected window.</p>
       </div>
-      <p class="notes-day">Per-day ecom: Mon 4.5h &middot; Tue 9h &middot; <b>Wed 10h</b> &middot; Thu 3.5h &middot; Fri 8h &middot; Sat 9.5h &middot; <b>Sun 12h</b></p>
-      <p class="notes-next">Toggle <em>Ecom &middot; T</em> alone to see these windows shaded on the grid. 56.5h is your true weekly ecom ceiling against the current commitments.</p>
-    </section>
-
-    <section class="notes" aria-label="Allocation analysis Nihal" style="border-color:#3a2540;">
-      <h2 style="color:#c97fe0;">Allocation read &mdash; Nihal</h2>
-      <p class="notes-lead">Her ecom runs 6:30am&ndash;9pm, computed around her Home commitments. The 6:30&ndash;8am morning block is reserved daily (her preference). Sub-hour gaps are dropped &mdash; only 1hr+ windows count as real work time.</p>
-      <div class="notes-grid">
-        <div class="note-card">
-          <span class="nk">Real ecom open</span>
-          <span class="nv">56h<small>/ week</small></span>
-          <p>After filtering slivers, capping at 9pm, and clearing Sunday (rest day), this is her usable weekly capacity. The daily 6:30&ndash;8am block is her most reliable, protected window.</p>
-        </div>
-        <div class="note-card hot" style="border-left-color:#ac20db;">
-          <span class="nk">Tighter days</span>
-          <span class="nv">Wed &middot; Mon<small>8&ndash;8.5h</small></span>
-          <p>Meal prep and playgroup carve these up. Still workable, but in shorter 1.5&ndash;3h runs rather than long stretches.</p>
-        </div>
-        <div class="note-card good" style="border-left-color:#ac20db;">
-          <span class="nk">Best runs</span>
-          <span class="nv">Tue &middot; Sat<small>10.5h</small></span>
-          <p>No meal prep. Each holds a clean 9:30am&ndash;1pm and 1:30&ndash;5pm stretch &mdash; her strongest focused store-build windows. Sunday is now kept clear as rest.</p>
-        </div>
+      <div class="note-card hot" style="border-left-color:#ac20db;">
+        <span class="nk">Tighter days</span>
+        <span class="nv">Wed &middot; Mon<small>8&ndash;8.5h</small></span>
+        <p>Meal prep and playgroup carve these up. Still workable, but in shorter 1.5&ndash;3h runs rather than long stretches.</p>
       </div>
-      <p class="notes-day">Per-day ecom: <b>Mon 8.5h</b> &middot; <b>Tue 10.5h</b> &middot; Wed 8h &middot; Thu 8.5h &middot; Fri 10h &middot; <b>Sat 10.5h</b> &middot; Sun &mdash;</p>
-      <p class="notes-next">Toggle <em>Ecom &middot; N</em> alone to see her windows shaded. The 6:30&ndash;8am daily block is her anchor; Tue/Sat midday runs are her deep-work slots. Sunday is kept clear.</p>
-    </section>
-  </main>
-  <p class="hint">Edit the <code class="kbd">SCHEDULE</code> block in this file &mdash; add a line, save, drag into Netlify Drop. Ecom hours recalculate automatically.</p>
+      <div class="note-card good" style="border-left-color:#ac20db;">
+        <span class="nk">Best runs</span>
+        <span class="nv">Tue &middot; Sat<small>10.5h</small></span>
+        <p>No meal prep. Each holds a clean 9:30am&ndash;1pm and 1:30&ndash;5pm stretch &mdash; her strongest focused store-build windows. Sunday is now kept clear as rest.</p>
+      </div>
+    </div>
+    <p class="notes-day" id="n-perday">Per-day ecom: <b>Mon 8.5h</b> &middot; <b>Tue 10.5h</b> &middot; Wed 8h &middot; Thu 8.5h &middot; Fri 10h &middot; <b>Sat 10.5h</b> &middot; Sun &mdash;</p>
+    <p class="notes-next">Toggle <em>Ecom &middot; N</em> alone to see her windows shaded. The 6:30&ndash;8am daily block is her anchor; Tue/Sat midday runs are her deep-work slots. Sunday is kept clear.</p>
+  </section>
+</main>
+<div class="export-panel" id="exportPanel">
+  <h3>⬇️ Changes saved — push to go live</h3>
+  <p>Your updated schedule has been saved. Run this in <strong>Claude Code Terminal</strong> to push live:</p>
+  <code id="pushCmd">cd /Users/taylankursunlu/Documents/Business/time-allocation-board && git add -A && git commit -m "Update schedule" && git push origin main</code>
+  <button class="btn-copy" id="btnCopy" onclick="copyCmd()">Copy command</button>
+</div>
+<p class="hint">Click <strong>Edit Schedule</strong> to update times, add or remove blocks. Changes recalculate ecom hours live.</p>
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">Edit Block</h3>
+    <div>
+      <label>Layer</label>
+      <select id="mLayer">
+        <option value="homeTaylan">Home · Taylan</option>
+        <option value="workTaylan">Work · CUSTM</option>
+        <option value="homeNihal">Home · Nihal</option>
+      </select>
+    </div>
+    <div>
+      <label>Day</label>
+      <select id="mDay">
+        <option>Mon</option><option>Tue</option><option>Wed</option>
+        <option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
+      </select>
+    </div>
+    <div>
+      <label>Title</label>
+      <input type="text" id="mTitle" placeholder="e.g. Office" />
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label>Start time</label>
+        <input type="time" id="mStart" step="900" />
+      </div>
+      <div class="modal-field">
+        <label>End time</label>
+        <input type="time" id="mEnd" step="900" />
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-delete" id="btnDelete" onclick="deleteEvent()">Delete</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="saveEvent()">Save</button>
+    </div>
+  </div>
+</div>
 <script>
-const SCHEDULE = {
+let SCHEDULE = {
   homeTaylan: {
     label:"Home · Taylan", short:"T", color:"#00b050", dark:false, kind:"fixed",
     events:[
@@ -212,7 +296,6 @@ const SCHEDULE = {
   homeNihal: {
     label:"Home · Nihal", short:"N", color:"#ac20db", dark:false, kind:"fixed",
     events:[
-      // Breakfast — daily 8:00
       { day:"Mon", start:8, end:8.5, title:"Breakfast" },
       { day:"Tue", start:8, end:8.5, title:"Breakfast" },
       { day:"Wed", start:8, end:8.5, title:"Breakfast" },
@@ -220,21 +303,17 @@ const SCHEDULE = {
       { day:"Fri", start:8, end:8.5, title:"Breakfast" },
       { day:"Sat", start:8, end:8.5, title:"Breakfast" },
       { day:"Sun", start:8, end:8.5, title:"Breakfast" },
-      // Homeschool prep — Mon–Sat 9:00
       { day:"Mon", start:9, end:9.5, title:"Homeschool prep" },
       { day:"Tue", start:9, end:9.5, title:"Homeschool prep" },
       { day:"Wed", start:9, end:9.5, title:"Homeschool prep" },
       { day:"Thu", start:9, end:9.5, title:"Homeschool prep" },
       { day:"Fri", start:9, end:9.5, title:"Homeschool prep" },
       { day:"Sat", start:9, end:9.5, title:"Homeschool prep" },
-      // Ayah Playgroup
       { day:"Mon", start:13, end:14.5, title:"Ayah Playgroup" },
       { day:"Thu", start:9.5, end:11.5, title:"Ayah Playgroup" },
-      // Meal prep — Mon/Wed/Fri 11:00
       { day:"Mon", start:11, end:11.5, title:"Meal prep" },
       { day:"Wed", start:11, end:11.5, title:"Meal prep" },
       { day:"Fri", start:11, end:11.5, title:"Meal prep" },
-      // Breaks — Break 1 1:00 (NOT Mon: playgroup), Break 2 5:00 daily
       { day:"Tue", start:13, end:13.5, title:"Break 1" },
       { day:"Wed", start:13, end:13.5, title:"Break 1" },
       { day:"Thu", start:13, end:13.5, title:"Break 1" },
@@ -248,10 +327,8 @@ const SCHEDULE = {
       { day:"Fri", start:17, end:17.5, title:"Break 2" },
       { day:"Sat", start:17, end:17.5, title:"Break 2" },
       { day:"Sun", start:17, end:17.5, title:"Break 2" },
-      // Soccer (Nihal attends)
       { day:"Mon", start:19, end:20.25, title:"Soccer" },
       { day:"Wed", start:18, end:19.25, title:"Soccer" },
-      // Ayah Bedtime — daily 7:30–8:30
       { day:"Mon", start:19.5, end:20.5, title:"Ayah Bedtime" },
       { day:"Tue", start:19.5, end:20.5, title:"Ayah Bedtime" },
       { day:"Wed", start:19.5, end:20.5, title:"Ayah Bedtime" },
@@ -276,124 +353,149 @@ const BANNERS = { Sat:["Personal & Family Development"], Sun:["custm Marketing",
 const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const CALL_COLOR="#7da0d4";
 const START=5, END=22, PXH=42, SPAN=END-START, COLH=SPAN*PXH;
+let editMode=false;
+let editingIndex=null;
 const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);const ap=hr>=12?"pm":"am";let x=hr%12;if(x===0)x=12;return m===0?`${x}${ap}`:`${x}:${String(m).padStart(2,"0")}${ap}`;};
+const toHHMM=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return `${String(hr).padStart(2,"0")}:${String(m).padStart(2,"0")}`;};
+const fromHHMM=s=>{const [h,m]=s.split(":").map(Number);return h+m/60;};
 const round1=n=>+n.toFixed(1);
-function mergeIntervals(list){
-  if(!list.length) return [];
-  const s=[...list].sort((a,b)=>a.start-b.start);
-  const out=[{...s[0]}];
-  for(let i=1;i<s.length;i++){const last=out[out.length-1];if(s[i].start<=last.end)last.end=Math.max(last.end,s[i].end);else out.push({...s[i]});}
-  return out;
-}
-function freeGaps(busy){
-  const merged=mergeIntervals(busy.filter(b=>b.end>START&&b.start<END).map(b=>({start:Math.max(b.start,START),end:Math.min(b.end,END)})));
-  const gaps=[];let cur=START;
-  for(const b of merged){ if(b.start>cur) gaps.push({start:cur,end:b.start}); cur=Math.max(cur,b.end); }
-  if(cur<END) gaps.push({start:cur,end:END});
-  return gaps;
-}
+function mergeIntervals(list){if(!list.length)return [];const s=[...list].sort((a,b)=>a.start-b.start);const out=[{...s[0]}];for(let i=1;i<s.length;i++){const last=out[out.length-1];if(s[i].start<=last.end)last.end=Math.max(last.end,s[i].end);else out.push({...s[i]});}return out;}
+function freeGaps(busy){const merged=mergeIntervals(busy.filter(b=>b.end>START&&b.start<END).map(b=>({start:Math.max(b.start,START),end:Math.min(b.end,END)})));const gaps=[];let cur=START;for(const b of merged){if(b.start>cur)gaps.push({start:cur,end:b.start});cur=Math.max(cur,b.end);}if(cur<END)gaps.push({start:cur,end:END});return gaps;}
 function busyFor(day,keys){const out=[];keys.forEach(k=>{const L=SCHEDULE[k];if(L&&L.events)L.events.filter(e=>e.day===day).forEach(e=>out.push({start:e.start,end:e.end}));});return out;}
-function subtractExcl(gaps,excl){
-  if(!excl||!excl.length) return gaps;
-  let segs=gaps.map(g=>({...g}));
-  excl.forEach(([ea,eb])=>{
-    const ns=[];
-    segs.forEach(s=>{
-      if(eb<=s.start||ea>=s.end){ns.push(s);}
-      else{ if(s.start<ea) ns.push({start:s.start,end:ea}); if(eb<s.end) ns.push({start:eb,end:s.end}); }
-    });
-    segs=ns;
-  });
-  return segs;
-}
-function ecomGaps(day,L){
-  if(L.exclDays && L.exclDays.includes(day)) return [];
-  let g=freeGaps(busyFor(day,L.blockedBy));
-  let excl=(L.excl||[]).slice();
-  if(L.exclByDay && L.exclByDay[day]) excl=excl.concat(L.exclByDay[day]);
-  g=subtractExcl(g,excl);
-  const mb=L.minBlock||0;
-  return g.filter(x=>(x.end-x.start)>=mb-1e-9);
-}
+function subtractExcl(gaps,excl){if(!excl||!excl.length)return gaps;let segs=gaps.map(g=>({...g}));excl.forEach(([ea,eb])=>{const ns=[];segs.forEach(s=>{if(eb<=s.start||ea>=s.end){ns.push(s);}else{if(s.start<ea)ns.push({start:s.start,end:ea});if(eb<s.end)ns.push({start:eb,end:s.end});}});segs=ns;});return segs;}
+function ecomGaps(day,L){if(L.exclDays&&L.exclDays.includes(day))return [];let g=freeGaps(busyFor(day,L.blockedBy));let excl=(L.excl||[]).slice();if(L.exclByDay&&L.exclByDay[day])excl=excl.concat(L.exclByDay[day]);g=subtractExcl(g,excl);const mb=L.minBlock||0;return g.filter(x=>(x.end-x.start)>=mb-1e-9);}
 function buildHead(){document.getElementById("dayHead").innerHTML=`<div></div>`+DAYS.map(d=>`<div class="d${(d==="Sat"||d==="Sun")?" weekend":""}">${d}</div>`).join("");}
 function buildBanners(){let html=`<div></div>`;DAYS.forEach(d=>{const items=BANNERS[d]||[];html+=`<div class="banner-cell">${items.map(b=>`<div class="banner">${b}</div>`).join("")}</div>`;});document.getElementById("bannerRow").innerHTML=html;}
 function buildBody(active){
   const body=document.getElementById("gridBody");
   let rail=`<div class="rail" style="height:${COLH}px">`;
-  for(let h=START;h<=END;h++) rail+=`<div class="hr" style="top:${(h-START)*PXH}px">${fmt(h)}</div>`;
+  for(let h=START;h<=END;h++)rail+=`<div class="hr" style="top:${(h-START)*PXH}px">${fmt(h)}</div>`;
   rail+=`</div>`;
-  // gap-shading rule: shade open windows only when EXACTLY ONE ecom layer is active
   const activeEcom=["ecomTaylan","ecomNihal"].filter(k=>active.has(k));
-  const shadeLayer = activeEcom.length===1 ? SCHEDULE[activeEcom[0]] : null;
+  const shadeLayer=activeEcom.length===1?SCHEDULE[activeEcom[0]]:null;
   const cols=DAYS.map(day=>{
     let inner="";
-    for(let h=START;h<END;h++) inner+=`<div class="hourline" style="top:${(h-START)*PXH}px"></div>`;
-    if(shadeLayer){
-      const gaps=ecomGaps(day,shadeLayer);
-      gaps.forEach(g=>{
-        const top=(g.start-START)*PXH, ht=Math.max((g.end-g.start)*PXH-3,12);
-        inner+=`<div class="freeband" style="top:${top}px;height:${ht}px"></div>`;
-        if((g.end-g.start)>=1){inner+=`<div class="ev dark" style="top:${top}px;height:${ht}px;background:${shadeLayer.color};opacity:.92"><div class="t">Open</div><div class="sub">${fmt(g.start)}–${fmt(g.end)}</div></div>`;}
-      });
-    }
+    for(let h=START;h<END;h++)inner+=`<div class="hourline" style="top:${(h-START)*PXH}px"></div>`;
+    if(shadeLayer){const gaps=ecomGaps(day,shadeLayer);gaps.forEach(g=>{const top=(g.start-START)*PXH,ht=Math.max((g.end-g.start)*PXH-3,12);inner+=`<div class="freeband" style="top:${top}px;height:${ht}px"></div>`;if((g.end-g.start)>=1){inner+=`<div class="ev dark freeband-open" style="top:${top}px;height:${ht}px;background:${shadeLayer.color};opacity:.92"><div class="t">Open</div><div class="sub">${fmt(g.start)}–${fmt(g.end)}</div></div>`;}});}
     Object.keys(SCHEDULE).forEach(key=>{
       const L=SCHEDULE[key];
-      if(L.kind!=="fixed") return;
-      if(!active.has(key)) return;
-      L.events.filter(e=>e.day===day && !e.accent).forEach(e=>{
-        const top=(e.start-START)*PXH, dur=e.end-e.start, ht=Math.max(dur*PXH-3,16);
+      if(L.kind!=="fixed")return;
+      if(!active.has(key))return;
+      L.events.filter(e=>e.day===day&&!e.accent).forEach(e=>{
+        const globalIdx=L.events.indexOf(e);
+        const top=(e.start-START)*PXH,dur=e.end-e.start,ht=Math.max(dur*PXH-3,16);
         const tiny=dur<=0.5;
-        inner+=`<div class="ev${L.dark?" dark":""}${tiny?" short":""}" style="top:${top}px;height:${ht}px;background:${L.color}"><div class="t">${e.title}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
+        const clickAttr=editMode?`onclick="openEdit('${key}',${globalIdx})" style="top:${top}px;height:${ht}px;background:${L.color};cursor:pointer"`:`style="top:${top}px;height:${ht}px;background:${L.color}"`;
+        inner+=`<div class="ev${L.dark?" dark":""}${tiny?" short":""}" ${clickAttr}><div class="t">${e.title}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
       });
-      L.events.filter(e=>e.day===day && e.accent).forEach(e=>{
-        const top=(e.start-START)*PXH, ht=Math.max((e.end-e.start)*PXH-2,14);
-        inner+=`<div class="ev call" style="top:${top}px;height:${ht}px;background:${CALL_COLOR}"><div class="t">${e.title}</div></div>`;
-      });
+      L.events.filter(e=>e.day===day&&e.accent).forEach(e=>{const top=(e.start-START)*PXH,ht=Math.max((e.end-e.start)*PXH-2,14);inner+=`<div class="ev call" style="top:${top}px;height:${ht}px;background:${CALL_COLOR}"><div class="t">${e.title}</div></div>`;});
     });
-    return `<div class="col${(day==="Sat"||day==="Sun")?" weekend":""}" style="height:${COLH}px">${inner}</div>`;
+    const addBtn=editMode?`<button class="add-ev-btn" onclick="openAdd(event,'${day}')">+ Add block</button>`:"";
+    return `<div class="col${(day==="Sat"||day==="Sun")?" weekend":""}" style="height:${COLH}px">${inner}${addBtn}</div>`;
   }).join("");
   body.innerHTML=rail+cols;
 }
 function buildTallies(active){
   const wrap=document.getElementById("tallies");
+  const gridWk=SPAN*7;
+  let tTotal=0,nTotal=0;const tPerDay={},nPerDay={};
   wrap.innerHTML=Object.keys(SCHEDULE).map(key=>{
-    const L=SCHEDULE[key];
-    const muted=active.has(key)?"":" muted";
-    const gridWk=SPAN*7;
-    if(L.kind==="fixed"){
-      const used=L.events.reduce((s,e)=>s+(e.end-e.start),0);
-      const pct=Math.min(used/gridWk*100,100);
-      return `<div class="tally${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(used)}<span class="unit">h used</span></div><div class="sub-line">${round1(gridWk-used)}h free of ${gridWk}h grid</div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div></div>`;
-    }
-    let total=0; const perDay={};
-    DAYS.forEach(d=>{const g=ecomGaps(d,L);const h=g.reduce((s,x)=>s+(x.end-x.start),0);perDay[d]=h;total+=h;});
+    const L=SCHEDULE[key];const muted=active.has(key)?"":" muted";
+    if(L.kind==="fixed"){const used=L.events.reduce((s,e)=>s+(e.end-e.start),0);const pct=Math.min(used/gridWk*100,100);return `<div class="tally${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(used)}<span class="unit">h used</span></div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div></div>`;}
+    let total=0;const perDay={};DAYS.forEach(d=>{const g=ecomGaps(d,L);const h=g.reduce((s,x)=>s+(x.end-x.start),0);perDay[d]=h;total+=h;});
+    if(key==="ecomTaylan"){tTotal=total;DAYS.forEach(d=>tPerDay[d]=perDay[d]);}
+    if(key==="ecomNihal"){nTotal=total;DAYS.forEach(d=>nPerDay[d]=perDay[d]);}
     const pct=Math.min(total/gridWk*100,100);
     const rows=DAYS.map(d=>`<div class="bd-row${perDay[d]===0?" zero":""}"><span>${d}</span><b>${round1(perDay[d])}h</b></div>`).join("");
-    const blockNames=L.blockedBy.map(k=>SCHEDULE[k].label.split(" · ")[0]).join(" / ");
-    return `<div class="tally ecom${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(total)}<span class="unit">h open</span></div><div class="sub-line">Time with no ${blockNames} commitment. Show only this layer to see the windows on the grid.</div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div><div class="breakdown">${rows}</div></div>`;
+    return `<div class="tally ecom${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(total)}<span class="unit">h open</span></div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div><div class="breakdown">${rows}</div></div>`;
   }).join("");
+  const tEl=document.getElementById("t-total");if(tEl)tEl.innerHTML=`${round1(tTotal)}h<small>/ week</small>`;
+  const nEl=document.getElementById("n-total");if(nEl)nEl.innerHTML=`${round1(nTotal)}h<small>/ week</small>`;
+  const tPd=document.getElementById("t-perday");
+  if(tPd&&Object.keys(tPerDay).length){const max=Math.max(...Object.values(tPerDay));tPd.innerHTML="Per-day ecom: "+DAYS.map(d=>{const h=round1(tPerDay[d]||0);return (tPerDay[d]||0)===max?`<b>${d} ${h}h</b>`:`${d} ${h}h`;}).join(" · ");}
+  const nPd=document.getElementById("n-perday");
+  if(nPd&&Object.keys(nPerDay).length){const max=Math.max(...Object.values(nPerDay));nPd.innerHTML="Per-day ecom: "+DAYS.map(d=>{const h=round1(nPerDay[d]||0);if((nPerDay[d]||0)===0)return `${d} —`;return (nPerDay[d]||0)===max?`<b>${d} ${h}h</b>`:`${d} ${h}h`;}).join(" · ");}
 }
-
+function toggleEditMode(){
+  editMode=!editMode;
+  document.body.classList.toggle("edit-mode",editMode);
+  const btn=document.getElementById("btnEdit");
+  btn.classList.toggle("active",editMode);
+  btn.textContent=editMode?"✅ Done Editing":"✏️ Edit Schedule";
+  document.getElementById("btnSaveExport").classList.toggle("show",editMode);
+  render();
+}
+function openEdit(key,idx){
+  if(!editMode)return;
+  editingIndex={key,idx};
+  const e=SCHEDULE[key].events[idx];
+  document.getElementById("modalTitle").textContent="Edit Block";
+  document.getElementById("mLayer").value=key;
+  document.getElementById("mDay").value=e.day;
+  document.getElementById("mTitle").value=e.title;
+  document.getElementById("mStart").value=toHHMM(e.start);
+  document.getElementById("mEnd").value=toHHMM(e.end);
+  document.getElementById("btnDelete").style.display="block";
+  document.getElementById("modalBg").classList.add("open");
+}
+function openAdd(evt,day){
+  evt.stopPropagation();
+  if(!editMode)return;
+  editingIndex=null;
+  document.getElementById("modalTitle").textContent="Add Block";
+  document.getElementById("mLayer").value="homeTaylan";
+  document.getElementById("mDay").value=day;
+  document.getElementById("mTitle").value="";
+  document.getElementById("mStart").value="09:00";
+  document.getElementById("mEnd").value="10:00";
+  document.getElementById("btnDelete").style.display="none";
+  document.getElementById("modalBg").classList.add("open");
+}
+function closeModal(){document.getElementById("modalBg").classList.remove("open");editingIndex=null;}
+function saveEvent(){
+  const key=document.getElementById("mLayer").value;
+  const day=document.getElementById("mDay").value;
+  const title=document.getElementById("mTitle").value.trim();
+  const start=fromHHMM(document.getElementById("mStart").value);
+  const end=fromHHMM(document.getElementById("mEnd").value);
+  if(!title||end<=start){alert("Check title and times.");return;}
+  if(editingIndex){
+    const {key:oldKey,idx}=editingIndex;
+    if(oldKey===key){SCHEDULE[key].events[idx]={...SCHEDULE[key].events[idx],day,title,start,end};}
+    else{SCHEDULE[oldKey].events.splice(idx,1);SCHEDULE[key].events.push({day,title,start,end});}
+  } else {
+    SCHEDULE[key].events.push({day,title,start,end});
+  }
+  closeModal();render();
+}
+function deleteEvent(){if(!editingIndex)return;const {key,idx}=editingIndex;SCHEDULE[key].events.splice(idx,1);closeModal();render();}
+function showExport(){
+  const s=JSON.stringify(SCHEDULE,null,2);
+  const current=document.documentElement.outerHTML;
+  const updated=current.replace(/let SCHEDULE = \{[\s\S]*?\};\nconst BANNERS/,'let SCHEDULE = '+s+';\nconst BANNERS');
+  const blob=new Blob([updated],{type:"text/html"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="index.html";a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById("exportPanel").classList.add("show");
+  document.getElementById("exportPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function copyCmd(){
+  navigator.clipboard.writeText(document.getElementById("pushCmd").textContent);
+  const btn=document.getElementById("btnCopy");btn.textContent="Copied ✓";btn.classList.add("copied");
+  setTimeout(()=>{btn.textContent="Copy command";btn.classList.remove("copied");},2000);
+}
+document.getElementById("modalBg").addEventListener("click",e=>{if(e.target===document.getElementById("modalBg"))closeModal();});
 const ALL_KEYS=Object.keys(SCHEDULE);
 let active=new Set(ALL_KEYS);
 const toggleSet=document.getElementById("toggleSet");
-function syncButtons(){
-  toggleSet.querySelectorAll(".tg").forEach(btn=>{
-    const k=btn.dataset.key;
-    if(k==="all"){ btn.setAttribute("aria-pressed", active.size===ALL_KEYS.length ? "true":"false"); }
-    else { btn.setAttribute("aria-pressed", active.has(k) ? "true":"false"); }
-  });
-}
+function syncButtons(){toggleSet.querySelectorAll(".tg").forEach(btn=>{const k=btn.dataset.key;if(k==="all"){btn.setAttribute("aria-pressed",active.size===ALL_KEYS.length?"true":"false");}else{btn.setAttribute("aria-pressed",active.has(k)?"true":"false");}});}
 function render(){buildBody(active);buildTallies(active);syncButtons();}
 toggleSet.addEventListener("click",e=>{
-  const btn=e.target.closest(".tg"); if(!btn) return;
+  const btn=e.target.closest(".tg");if(!btn)return;
   const k=btn.dataset.key;
-  if(k==="all"){ active=new Set(ALL_KEYS); }
-  else {
-    if(active.size===ALL_KEYS.length){ active=new Set([k]); }   // first pick from "all" → isolate
-    else if(active.has(k)){ active.delete(k); if(active.size===0) active=new Set(ALL_KEYS); }
-    else { active.add(k); }
-  }
+  if(k==="all"){active=new Set(ALL_KEYS);}
+  else{if(active.size===ALL_KEYS.length){active=new Set([k]);}else if(active.has(k)){active.delete(k);if(active.size===0)active=new Set(ALL_KEYS);}else{active.add(k);}}
   render();
 });
 buildHead();buildBanners();render();
