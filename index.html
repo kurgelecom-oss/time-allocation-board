@@ -14,6 +14,7 @@
     --ink:#f3f5f8; --ink-dim:#9aa4b2; --ink-faint:#5e6876;
     --homeTaylan:#00b050; --workTaylan:#4a72b0; --homeNihal:#ac20db;
     --ecomTaylan:#ff9933; --ecomNihal:#fff200;
+    --nickCalls:#e74c3c; --originsMentorship:#3498db;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:var(--bg);color:var(--ink);}
@@ -149,6 +150,8 @@
       <button class="tg" data-key="homeNihal" aria-pressed="true"><span class="dot" style="background:#ac20db"></span>Home &middot; N</button>
       <button class="tg" data-key="ecomTaylan" aria-pressed="true"><span class="dot" style="background:#ff9933"></span>Ecom &middot; T</button>
       <button class="tg" data-key="ecomNihal" aria-pressed="true"><span class="dot" style="background:#fff200"></span>Ecom &middot; N</button>
+      <button class="tg" data-key="nickCalls" aria-pressed="true"><span class="dot" style="background:#e74c3c"></span>Nick Calls</button>
+      <button class="tg" data-key="originsMentorship" aria-pressed="true"><span class="dot" style="background:#3498db"></span>Origins Mentorship</button>
     </div>
     <button class="btn-edit" id="btnEdit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
     <button class="btn-save-export" id="btnSaveExport" onclick="showExport()">⬇️ Save &amp; Export</button>
@@ -224,6 +227,8 @@
         <option value="homeTaylan">Home · Taylan</option>
         <option value="workTaylan">Work · CUSTM</option>
         <option value="homeNihal">Home · Nihal</option>
+        <option value="nickCalls">Nick Calls</option>
+        <option value="originsMentorship">Origins Mentorship</option>
       </select>
     </div>
     <div>
@@ -347,6 +352,14 @@ let SCHEDULE = {
     label:"Ecom · Nihal", short:"EN", color:"#fff200", dark:true, kind:"computed",
     blockedBy:["homeNihal"],
     excl:[[5,6.5],[21,22]], minBlock:1, exclDays:["Sun"]
+  },
+  nickCalls: {
+    label:"Nick Calls", short:"NC", color:"#e74c3c", dark:false, kind:"fixed",
+    events:[]
+  },
+  originsMentorship: {
+    label:"Origins Mentorship", short:"OM", color:"#3498db", dark:false, kind:"fixed",
+    events:[]
   },
 };
 const BANNERS = { Sat:["Personal & Family Development"], Sun:["custm Marketing","Soccer Matchday"] };
