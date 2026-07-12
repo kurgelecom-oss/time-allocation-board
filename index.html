@@ -12,9 +12,6 @@
     --bg:#0e1116; --panel:#171b22; --panel-2:#1d222b;
     --line:#2a313c; --line-soft:#222831;
     --ink:#f3f5f8; --ink-dim:#9aa4b2; --ink-faint:#5e6876;
-    --homeTaylan:#00b050; --workTaylan:#4a72b0; --homeNihal:#ac20db;
-    --ecomTaylan:#ff9933; --ecomNihal:#fff200;
-    --nickCalls:#e74c3c; --originsMentorship:#3498db;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:var(--bg);color:var(--ink);}
@@ -22,7 +19,7 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
   .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;max-width:1320px;margin:0 auto 28px;}
   .brand h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;margin:0;line-height:1;}
-  .brand p{margin:8px 0 0;color:var(--ink-dim);font-size:14px;max-width:48ch;line-height:1.5;}
+  .brand p{margin:8px 0 0;color:var(--ink-dim);font-size:14px;max-width:52ch;line-height:1.5;}
   .controls{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;}
   .toggle-set{display:flex;flex-wrap:wrap;gap:8px;}
   .tg{display:inline-flex;align-items:center;gap:7px;background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
@@ -33,493 +30,289 @@
   .tg.tg-all{font-weight:700;}
   .tg.tg-all[aria-pressed="true"]{background:var(--ink);color:#0b0e13;border-color:var(--ink);}
   .tg:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
-  .btn-edit{display:inline-flex;align-items:center;gap:7px;background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
-  .btn-edit:hover{border-color:#3a434f;color:var(--ink);}
-  .btn-edit.active{background:#1a2510;color:#00b050;border-color:#00b050;}
-  .btn-save-export{display:none;align-items:center;gap:7px;background:#ff9933;color:#0b0e13;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;font-family:"Space Grotesk",sans-serif;cursor:pointer;transition:all .14s ease;}
-  .btn-save-export:hover{background:#ffaa55;}
-  .btn-save-export.show{display:inline-flex;}
   .board{max-width:1320px;margin:0 auto;}
+  .state-msg{max-width:1320px;margin:60px auto;text-align:center;color:var(--ink-dim);font-family:"Space Grotesk",sans-serif;font-size:15px;}
+  .state-msg.error{color:#ff6b6b;}
+  .state-msg button{margin-left:10px;background:var(--panel-2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;}
+  .state-msg button:hover{border-color:#3a434f;}
+  .partial-warn{max-width:1320px;margin:0 auto 16px;background:#241a10;border:1px solid #4a3520;color:#f5b970;border-radius:12px;padding:10px 16px;font-size:12.5px;font-family:"JetBrains Mono",monospace;}
   .grid-shell{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px 22px 26px;overflow:hidden;}
   .day-head{display:grid;grid-template-columns:58px repeat(7,1fr);gap:10px;margin-bottom:8px;}
   .day-head .d{text-align:center;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--ink-dim);padding-bottom:4px;}
   .day-head .d.weekend{color:var(--ink-faint);}
-  .banner-row{display:grid;grid-template-columns:58px repeat(7,1fr);gap:10px;margin-bottom:10px;}
-  .banner-cell{display:flex;flex-direction:column;gap:4px;min-height:4px;}
-  .banner{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.01em;color:var(--ink-dim);background:var(--panel-2);border:1px dashed var(--line);border-radius:6px;padding:3px 6px;line-height:1.25;text-align:center;}
   .grid-body{display:grid;grid-template-columns:58px repeat(7,1fr);gap:10px;position:relative;}
   .rail{position:relative;}
   .rail .hr{position:absolute;left:0;right:6px;text-align:right;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-faint);transform:translateY(-6px);}
   .col{position:relative;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:12px;}
   .col.weekend{background:#191d25;}
   .col .hourline{position:absolute;left:0;right:0;height:1px;background:var(--line-soft);}
-  .freeband{position:absolute;left:3px;right:3px;border-radius:8px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05),rgba(255,255,255,.05) 6px,transparent 6px,transparent 12px);border:1px dashed rgba(255,255,255,.14);}
   .ev{position:absolute;left:5px;right:5px;border-radius:9px;padding:5px 9px;overflow:hidden;color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.25);transition:transform .12s ease,box-shadow .12s ease;display:flex;flex-direction:column;justify-content:center;}
   .ev:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.4);z-index:5;}
   .ev .t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ev .sub{font-size:10px;opacity:.82;margin-top:1px;font-family:"JetBrains Mono",monospace;letter-spacing:-.02em;white-space:nowrap;}
   .ev.short{padding:0 9px;justify-content:center;}
   .ev.short .t{font-size:11px;line-height:1;}
-  .ev.dark{color:#15140a;} .ev.dark .sub{opacity:.7;}
-  .ev.call{left:auto;right:4px;width:42%;min-height:20px;z-index:6;color:#0b1220;background:#cdd9ee;border:1px solid rgba(11,18,32,.25);box-shadow:0 2px 8px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:2px 4px;}
-  .ev.call .t{font-size:10.5px;font-weight:700;line-height:1;text-align:center;}
-  body.edit-mode .ev:not(.freeband-open){cursor:pointer;}
-  body.edit-mode .ev:not(.freeband-open):hover{outline:2px solid rgba(255,255,255,.5);z-index:10;}
-  .edit-badge{display:none;position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#ff9933;color:#0b0e13;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:13px;padding:8px 18px;border-radius:99px;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.5);}
-  body.edit-mode .edit-badge{display:block;}
-  .tallies{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
+  .tallies{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
   @media(max-width:1080px){.tallies{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:560px){.tallies{grid-template-columns:1fr;}}
   .tally{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;transition:opacity .2s ease;}
   .tally.muted{opacity:.3;}
-  .tally.ecom{border-color:#3a3320;}
   .th{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
   .swatch{width:11px;height:11px;border-radius:3px;flex:none;}
   .name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:-.01em;}
   .chip{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;color:var(--ink-faint);border:1px solid var(--line);border-radius:5px;padding:1px 5px;}
   .bignum{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:22px;line-height:1;letter-spacing:-.02em;}
   .bignum .unit{font-size:11px;color:var(--ink-dim);font-weight:500;margin-left:3px;}
-  .sub-line{display:none;}
   .bar{height:5px;border-radius:99px;background:#10141a;margin-top:8px;overflow:hidden;border:1px solid var(--line-soft);}
   .bar > i{display:block;height:100%;border-radius:99px;transition:width .5s cubic-bezier(.2,.7,.2,1);}
-  .breakdown{margin-top:9px;border-top:1px solid var(--line-soft);padding-top:8px;display:flex;flex-wrap:wrap;gap:2px 8px;}
-  .breakdown .bd-row{display:flex;gap:4px;font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--ink-dim);}
-  .breakdown .bd-row b{color:var(--ink);font-weight:600;}
-  .breakdown .bd-row.zero{color:var(--ink-faint);}
   .hint{max-width:1320px;margin:18px auto 0;color:var(--ink-faint);font-size:12px;text-align:center;}
-  code.kbd{background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:"JetBrains Mono",monospace;color:var(--ink-dim);}
   .notes{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px 24px 22px;}
   .notes h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;margin:0 0 6px;}
   .notes-lead{color:var(--ink-dim);font-size:13px;line-height:1.55;margin:0 0 20px;max-width:78ch;}
   .notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
   @media(max-width:760px){.notes-grid{grid-template-columns:1fr;}}
   .note-card{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:14px;padding:16px;border-left:3px solid var(--ink-faint);}
-  .note-card.hot{border-left-color:var(--ecomTaylan);}
-  .note-card.good{border-left-color:var(--homeTaylan);}
+  .note-card.hot{border-left-color:#f5b970;}
+  .note-card.good{border-left-color:#22c55e;}
   .note-card .nk{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-faint);font-weight:600;}
   .note-card .nv{display:block;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:6px 0 10px;}
   .note-card .nv small{font-size:12px;color:var(--ink-dim);font-weight:500;margin-left:7px;}
   .note-card p{margin:0;font-size:12px;line-height:1.55;color:var(--ink-dim);}
   .notes-day{margin:18px 0 0;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-dim);}
-  .notes-day b{color:var(--homeTaylan);font-weight:600;}
+  .notes-day b{color:var(--ink);font-weight:600;}
   .notes-next{margin:14px 0 0;font-size:12.5px;line-height:1.55;color:var(--ink-faint);border-top:1px solid var(--line-soft);padding-top:14px;}
   .notes-next em{color:var(--ink);font-style:normal;font-weight:600;}
-  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;}
-  .modal-bg.open{display:flex;}
-  .modal{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;width:360px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.6);}
-  .modal h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;margin:0 0 18px;color:var(--ink);}
-  .modal label{display:block;font-size:12px;font-weight:600;color:var(--ink-dim);margin-bottom:5px;margin-top:12px;text-transform:uppercase;letter-spacing:.08em;}
-  .modal input,.modal select{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;color:var(--ink);font-size:14px;font-family:"Inter",sans-serif;outline:none;}
-  .modal input:focus,.modal select:focus{border-color:#3d4856;}
-  .modal select option{background:var(--panel-2);}
-  .modal-row{display:flex;gap:10px;}
-  .modal-row .modal-field{flex:1;}
-  .modal-actions{display:flex;gap:10px;margin-top:20px;}
-  .modal-actions button{flex:1;padding:10px;border-radius:9px;border:none;font-size:13px;font-weight:700;font-family:"Space Grotesk",sans-serif;cursor:pointer;}
-  .btn-delete{background:#2a1515;color:#ff6b6b;border:1px solid #3a2020!important;}
-  .btn-delete:hover{background:#3a1515;}
-  .btn-cancel{background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line)!important;}
-  .btn-cancel:hover{color:var(--ink);}
-  .btn-confirm{background:#ff9933;color:#0b0e13;}
-  .btn-confirm:hover{background:#ffaa55;}
-  .add-ev-btn{display:none;position:absolute;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.2);border-radius:7px;color:var(--ink-faint);font-size:11px;font-family:"Space Grotesk",sans-serif;font-weight:600;padding:4px 10px;cursor:pointer;white-space:nowrap;z-index:4;}
-  body.edit-mode .add-ev-btn{display:block;}
-  .add-ev-btn:hover{background:rgba(255,255,255,.12);color:var(--ink);}
-  .export-panel{display:none;max-width:1320px;margin:20px auto 0;background:var(--panel);border:1px solid #3a3320;border-radius:16px;padding:20px 24px;}
-  .export-panel.show{display:block;}
-  .export-panel h3{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;margin:0 0 10px;color:#ff9933;}
-  .export-panel p{color:var(--ink-dim);font-size:13px;margin:0 0 14px;line-height:1.6;}
-  .export-panel code{display:block;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-family:"JetBrains Mono",monospace;font-size:12px;color:#00b050;margin-bottom:10px;word-break:break-all;}
-  .btn-copy{background:var(--panel-2);border:1px solid var(--line);color:var(--ink-dim);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;font-family:"Space Grotesk",sans-serif;cursor:pointer;}
-  .btn-copy:hover{color:var(--ink);}
-  .btn-copy.copied{color:#00b050;border-color:#00b050;}
 </style>
 </head>
 <body>
-<div class="edit-badge">✏️ Edit Mode — click any block to edit</div>
 <header class="top">
   <div class="brand">
     <h1>Time Allocation Board</h1>
-    <p>Five layers, one week, 5:00&#8202;am&#8202;&ndash;&#8202;10:00&#8202;pm waking hours. Work and Home are fixed. The two Ecom layers compute the hours left open &mdash; and exactly where they fall.</p>
+    <p>Schedule is pulled live from Notion &mdash; eight layers across Work, Personal, Ecom, Home and Homeschool. Edit blocks in Notion; they show up here automatically.</p>
   </div>
   <div class="controls">
-    <div class="toggle-set" id="toggleSet" role="group" aria-label="Choose which layers to show">
-      <button class="tg tg-all" data-key="all" aria-pressed="true">All</button>
-      <button class="tg" data-key="homeTaylan" aria-pressed="true"><span class="dot" style="background:#00b050"></span>Home &middot; T</button>
-      <button class="tg" data-key="workTaylan" aria-pressed="true"><span class="dot" style="background:#4a72b0"></span>Work</button>
-      <button class="tg" data-key="homeNihal" aria-pressed="true"><span class="dot" style="background:#ac20db"></span>Home &middot; N</button>
-      <button class="tg" data-key="ecomTaylan" aria-pressed="true"><span class="dot" style="background:#ff9933"></span>Ecom &middot; T</button>
-      <button class="tg" data-key="ecomNihal" aria-pressed="true"><span class="dot" style="background:#fff200"></span>Ecom &middot; N</button>
-      <button class="tg" data-key="nickCalls" aria-pressed="true"><span class="dot" style="background:#e74c3c"></span>Nick Calls</button>
-      <button class="tg" data-key="originsMentorship" aria-pressed="true"><span class="dot" style="background:#3498db"></span>Origins Mentorship</button>
-    </div>
-    <button class="btn-edit" id="btnEdit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
-    <button class="btn-save-export" id="btnSaveExport" onclick="showExport()">⬇️ Save &amp; Export</button>
+    <div class="toggle-set" id="toggleSet" role="group" aria-label="Choose which layers to show"></div>
   </div>
 </header>
 <main class="board">
-  <section class="tallies" id="tallies" aria-label="Hours per layer"></section>
-  <section class="grid-shell" aria-label="Weekly calendar">
-    <div class="day-head" id="dayHead"></div>
-    <div class="banner-row" id="bannerRow"></div>
-    <div class="grid-body" id="gridBody"></div>
-  </section>
-  <section class="notes" aria-label="Allocation analysis">
-    <h2>Allocation read &mdash; Taylan</h2>
-    <p class="notes-lead">Ecom is the open time left after Work and Home, with your dead windows stripped out: before 7:30am, the 9&ndash;10:30am depot-to-office gap, and anything after 9pm. Only blocks of 1 hour or more count &mdash; no slivers.</p>
-    <div class="notes-grid">
-      <div class="note-card">
-        <span class="nk">Real ecom open</span>
-        <span class="nv" id="t-total">56.5h<small>/ week</small></span>
-        <p>This is a usable figure now, not a ceiling &mdash; mornings, the depot gap, and post-9pm are excluded, and sub-hour fragments are dropped. What is left is genuine deep-work capacity.</p>
+  <div id="loadingState" class="state-msg">Loading schedule from Notion&hellip;</div>
+  <div id="errorState" class="state-msg error" style="display:none">Could not load schedule from Notion.<button id="retryBtn">Retry</button></div>
+  <div id="partialWarn" class="partial-warn" style="display:none"></div>
+  <div id="boardContent" style="display:none">
+    <section class="tallies" id="tallies" aria-label="Hours per layer"></section>
+    <section class="grid-shell" aria-label="Weekly calendar">
+      <div class="day-head" id="dayHead"></div>
+      <div class="grid-body" id="gridBody"></div>
+    </section>
+    <section class="notes" aria-label="Allocation analysis Taylan">
+      <h2>Allocation read &mdash; Taylan</h2>
+      <p class="notes-lead">Ecom hours below come straight from the <code>taylan-ecom</code> blocks logged in Notion &mdash; this is what's actually scheduled, not computed free time.</p>
+      <div class="notes-grid">
+        <div class="note-card">
+          <span class="nk">Total ecom</span>
+          <span class="nv" id="t-total">&mdash;<small>/ week</small></span>
+          <p>Sum of all Taylan &middot; Ecom blocks across the week.</p>
+        </div>
+        <div class="note-card hot">
+          <span class="nk">Thinnest days</span>
+          <span class="nv" id="t-thin">&mdash;</span>
+          <p>The two lowest-hour days for this layer.</p>
+        </div>
+        <div class="note-card good">
+          <span class="nk">Deepest days</span>
+          <span class="nv" id="t-deep">&mdash;</span>
+          <p>The two highest-hour days for this layer.</p>
+        </div>
       </div>
-      <div class="note-card hot">
-        <span class="nk">Thin days</span>
-        <span class="nv">Mon &middot; Thu<small>3.5&ndash;4.5h</small></span>
-        <p>Office 10:30&ndash;4:30 leaves only the 4:30&ndash;9pm evening. One solid block each, nothing more. Protect it.</p>
+      <p class="notes-day" id="t-perday">Per-day ecom: &mdash;</p>
+      <p class="notes-next">Toggle <em>Taylan &middot; Ecom</em> above to isolate these blocks on the grid.</p>
+    </section>
+    <section class="notes" aria-label="Allocation analysis Nihal" style="border-color:#3a2540;">
+      <h2 style="color:#c97fe0;">Allocation read &mdash; Nihal</h2>
+      <p class="notes-lead">Ecom hours below come straight from the <code>nihal-ecom</code> blocks logged in Notion &mdash; this is what's actually scheduled, not computed free time.</p>
+      <div class="notes-grid">
+        <div class="note-card">
+          <span class="nk">Total ecom</span>
+          <span class="nv" id="n-total">&mdash;<small>/ week</small></span>
+          <p>Sum of all Nihal &middot; Ecom blocks across the week.</p>
+        </div>
+        <div class="note-card hot">
+          <span class="nk">Thinnest days</span>
+          <span class="nv" id="n-thin">&mdash;</span>
+          <p>The two lowest-hour days for this layer.</p>
+        </div>
+        <div class="note-card good">
+          <span class="nk">Deepest days</span>
+          <span class="nv" id="n-deep">&mdash;</span>
+          <p>The two highest-hour days for this layer.</p>
+        </div>
       </div>
-      <div class="note-card good">
-        <span class="nk">Deep-work days</span>
-        <span class="nv">Wed &middot; Sun<small>10.5&ndash;12h</small></span>
-        <p>No office. Wed runs 10:30am&ndash;9pm bar the 2pm call; Sun is open 7:30am&ndash;9pm bar gym. These carry your LIARE build.</p>
-      </div>
-    </div>
-    <p class="notes-day" id="t-perday">Per-day ecom: Mon 4.5h &middot; Tue 9h &middot; <b>Wed 10h</b> &middot; Thu 3.5h &middot; Fri 8h &middot; Sat 9.5h &middot; <b>Sun 12h</b></p>
-    <p class="notes-next">Toggle <em>Ecom &middot; T</em> alone to see these windows shaded on the grid.</p>
-  </section>
-  <section class="notes" aria-label="Allocation analysis Nihal" style="border-color:#3a2540;">
-    <h2 style="color:#c97fe0;">Allocation read &mdash; Nihal</h2>
-    <p class="notes-lead">Her ecom runs 6:30am&ndash;9pm, computed around her Home commitments. The 6:30&ndash;8am morning block is reserved daily (her preference). Sub-hour gaps are dropped &mdash; only 1hr+ windows count as real work time.</p>
-    <div class="notes-grid">
-      <div class="note-card">
-        <span class="nk">Real ecom open</span>
-        <span class="nv" id="n-total">56h<small>/ week</small></span>
-        <p>After filtering slivers, capping at 9pm, and clearing Sunday (rest day), this is her usable weekly capacity. The daily 6:30&ndash;8am block is her most reliable, protected window.</p>
-      </div>
-      <div class="note-card hot" style="border-left-color:#ac20db;">
-        <span class="nk">Tighter days</span>
-        <span class="nv">Wed &middot; Mon<small>8&ndash;8.5h</small></span>
-        <p>Meal prep and playgroup carve these up. Still workable, but in shorter 1.5&ndash;3h runs rather than long stretches.</p>
-      </div>
-      <div class="note-card good" style="border-left-color:#ac20db;">
-        <span class="nk">Best runs</span>
-        <span class="nv">Tue &middot; Sat<small>10.5h</small></span>
-        <p>No meal prep. Each holds a clean 9:30am&ndash;1pm and 1:30&ndash;5pm stretch &mdash; her strongest focused store-build windows. Sunday is now kept clear as rest.</p>
-      </div>
-    </div>
-    <p class="notes-day" id="n-perday">Per-day ecom: <b>Mon 8.5h</b> &middot; <b>Tue 10.5h</b> &middot; Wed 8h &middot; Thu 8.5h &middot; Fri 10h &middot; <b>Sat 10.5h</b> &middot; Sun &mdash;</p>
-    <p class="notes-next">Toggle <em>Ecom &middot; N</em> alone to see her windows shaded. The 6:30&ndash;8am daily block is her anchor; Tue/Sat midday runs are her deep-work slots. Sunday is kept clear.</p>
-  </section>
-</main>
-<div class="export-panel" id="exportPanel">
-  <h3>⬇️ Changes saved — push to go live</h3>
-  <p>Your updated schedule has been saved. Run this in <strong>Claude Code Terminal</strong> to push live:</p>
-  <code id="pushCmd">cd /Users/taylankursunlu/Documents/Business/time-allocation-board && git add -A && git commit -m "Update schedule" && git push origin main</code>
-  <button class="btn-copy" id="btnCopy" onclick="copyCmd()">Copy command</button>
-</div>
-<p class="hint">Click <strong>Edit Schedule</strong> to update times, add or remove blocks. Changes recalculate ecom hours live.</p>
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <h3 id="modalTitle">Edit Block</h3>
-    <div>
-      <label>Layer</label>
-      <select id="mLayer">
-        <option value="homeTaylan">Home · Taylan</option>
-        <option value="workTaylan">Work · CUSTM</option>
-        <option value="homeNihal">Home · Nihal</option>
-        <option value="nickCalls">Nick Calls</option>
-        <option value="originsMentorship">Origins Mentorship</option>
-      </select>
-    </div>
-    <div>
-      <label>Day</label>
-      <select id="mDay">
-        <option>Mon</option><option>Tue</option><option>Wed</option>
-        <option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
-      </select>
-    </div>
-    <div>
-      <label>Title</label>
-      <input type="text" id="mTitle" placeholder="e.g. Office" />
-    </div>
-    <div class="modal-row">
-      <div class="modal-field">
-        <label>Start time</label>
-        <input type="time" id="mStart" step="900" />
-      </div>
-      <div class="modal-field">
-        <label>End time</label>
-        <input type="time" id="mEnd" step="900" />
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-delete" id="btnDelete" onclick="deleteEvent()">Delete</button>
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-confirm" onclick="saveEvent()">Save</button>
-    </div>
+      <p class="notes-day" id="n-perday">Per-day ecom: &mdash;</p>
+      <p class="notes-next">Toggle <em>Nihal &middot; Ecom</em> above to isolate these blocks on the grid.</p>
+    </section>
   </div>
-</div>
+</main>
+<p class="hint">Schedule is managed in Notion &mdash; edits made there are reflected here (cached up to a minute).</p>
 <script>
-let SCHEDULE = {
-  homeTaylan: {
-    label:"Home · Taylan", short:"T", color:"#00b050", dark:false, kind:"fixed",
-    events:[
-      { day:"Tue", start:8,  end:9,    title:"Chest / Shoulders" },
-      { day:"Tue", start:19, end:20,   title:"Family Lecture (Seera)" },
-      { day:"Wed", start:8,  end:9,    title:"Back / Biceps" },
-      { day:"Thu", start:19, end:20,   title:"Family Lecture (Qur'an)" },
-      { day:"Fri", start:8,  end:9,    title:"Legs" },
-      { day:"Fri", start:12, end:13,   title:"Jumu'ah" },
-      { day:"Fri", start:18, end:19,   title:"Family Movie" },
-      { day:"Sat", start:7,  end:8,    title:"Sauna / Stretch / Breathwork" },
-      { day:"Sat", start:10, end:11.5, title:"Family Alignment" },
-      { day:"Sat", start:18, end:19,   title:"Family Out" },
-    ]
-  },
-  workTaylan: {
-    label:"Work · CUSTM", short:"W", color:"#4a72b0", dark:false, kind:"fixed",
-    events:[
-      { day:"Mon", start:7.5, end:9,    title:"Depot" },
-      { day:"Mon", start:8,   end:8.25, title:"Call", accent:true },
-      { day:"Mon", start:10.5,end:16.5, title:"Office" },
-      { day:"Mon", start:14,  end:14.5, title:"Call", accent:true },
-      { day:"Tue", start:7.5, end:9,    title:"Depot" },
-      { day:"Tue", start:8,   end:8.25, title:"Call", accent:true },
-      { day:"Tue", start:14,  end:14.5, title:"Call", accent:true },
-      { day:"Wed", start:7.5, end:9,    title:"Depot" },
-      { day:"Wed", start:8,   end:8.25, title:"Call", accent:true },
-      { day:"Wed", start:14,  end:14.5, title:"Call", accent:true },
-      { day:"Thu", start:7.5, end:9,    title:"Depot" },
-      { day:"Thu", start:8,   end:8.25, title:"Call", accent:true },
-      { day:"Thu", start:10.5,end:16.5, title:"Office" },
-      { day:"Thu", start:14,  end:14.5, title:"Call", accent:true },
-      { day:"Fri", start:7.5, end:9,    title:"Depot" },
-      { day:"Fri", start:8,   end:8.25, title:"Call", accent:true },
-      { day:"Fri", start:14,  end:14.5, title:"Call", accent:true },
-    ]
-  },
-  homeNihal: {
-    label:"Home · Nihal", short:"N", color:"#ac20db", dark:false, kind:"fixed",
-    events:[
-      { day:"Mon", start:8, end:8.5, title:"Breakfast" },
-      { day:"Tue", start:8, end:8.5, title:"Breakfast" },
-      { day:"Wed", start:8, end:8.5, title:"Breakfast" },
-      { day:"Thu", start:8, end:8.5, title:"Breakfast" },
-      { day:"Fri", start:8, end:8.5, title:"Breakfast" },
-      { day:"Sat", start:8, end:8.5, title:"Breakfast" },
-      { day:"Sun", start:8, end:8.5, title:"Breakfast" },
-      { day:"Mon", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Tue", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Wed", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Thu", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Fri", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Sat", start:9, end:9.5, title:"Homeschool prep" },
-      { day:"Mon", start:13, end:14.5, title:"Ayah Playgroup" },
-      { day:"Thu", start:9.5, end:11.5, title:"Ayah Playgroup" },
-      { day:"Mon", start:11, end:11.5, title:"Meal prep" },
-      { day:"Wed", start:11, end:11.5, title:"Meal prep" },
-      { day:"Fri", start:11, end:11.5, title:"Meal prep" },
-      { day:"Tue", start:13, end:13.5, title:"Break 1" },
-      { day:"Wed", start:13, end:13.5, title:"Break 1" },
-      { day:"Thu", start:13, end:13.5, title:"Break 1" },
-      { day:"Fri", start:13, end:13.5, title:"Break 1" },
-      { day:"Sat", start:13, end:13.5, title:"Break 1" },
-      { day:"Sun", start:13, end:13.5, title:"Break 1" },
-      { day:"Mon", start:17, end:17.5, title:"Break 2" },
-      { day:"Tue", start:17, end:17.5, title:"Break 2" },
-      { day:"Wed", start:17, end:17.5, title:"Break 2" },
-      { day:"Thu", start:17, end:17.5, title:"Break 2" },
-      { day:"Fri", start:17, end:17.5, title:"Break 2" },
-      { day:"Sat", start:17, end:17.5, title:"Break 2" },
-      { day:"Sun", start:17, end:17.5, title:"Break 2" },
-      { day:"Mon", start:19, end:20.25, title:"Soccer" },
-      { day:"Wed", start:18, end:19.25, title:"Soccer" },
-      { day:"Mon", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Tue", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Wed", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Thu", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Fri", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Sat", start:19.5, end:20.5, title:"Ayah Bedtime" },
-      { day:"Sun", start:19.5, end:20.5, title:"Ayah Bedtime" },
-    ]
-  },
-  ecomTaylan: {
-    label:"Ecom · Taylan", short:"ET", color:"#ff9933", dark:true, kind:"computed",
-    blockedBy:["workTaylan","homeTaylan"],
-    excl:[[5,7.5],[9,10.5],[21,22]], minBlock:1
-  },
-  ecomNihal: {
-    label:"Ecom · Nihal", short:"EN", color:"#fff200", dark:true, kind:"computed",
-    blockedBy:["homeNihal"],
-    excl:[[5,6.5],[21,22]], minBlock:1, exclDays:["Sun"]
-  },
-  nickCalls: {
-    label:"Nick Calls", short:"NC", color:"#e74c3c", dark:false, kind:"fixed",
-    events:[
-      { day:"Wed", start:8, end:9, title:"Nicks Calls" },
-      { day:"Sat", start:8, end:9, title:"Nicks Calls" },
-    ]
-  },
-  originsMentorship: {
-    label:"Origins Mentorship", short:"OM", color:"#3498db", dark:false, kind:"fixed",
-    events:[
-      { day:"Mon", start:20.5, end:21.5, title:"Origins Mentorship" },
-      { day:"Tue", start:20.5, end:21.5, title:"Origins Mentorship" },
-      { day:"Wed", start:20.5, end:21.5, title:"Origins Mentorship" },
-      { day:"Thu", start:20.5, end:21.5, title:"Origins Mentorship" },
-    ]
-  },
-};
-const BANNERS = { Sat:["Personal & Family Development"], Sun:["custm Marketing","Soccer Matchday"] };
+const CATEGORIES = [
+  { key:"taylan-work",       label:"Taylan · Work",       short:"TW", color:"#3b82f6" },
+  { key:"taylan-personal",   label:"Taylan · Personal",   short:"TP", color:"#f97316" },
+  { key:"taylan-ecom",       label:"Taylan · Ecom",       short:"TE", color:"#22c55e" },
+  { key:"nihal-home",        label:"Nihal · Home",        short:"NH", color:"#ec4899" },
+  { key:"nihal-personal",    label:"Nihal · Personal",    short:"NP", color:"#a855f7" },
+  { key:"nihal-ecom",        label:"Nihal · Ecom",        short:"NE", color:"#ef4444" },
+  { key:"ansar-homeschool",  label:"Ansar · Homeschool",  short:"AH", color:"#eab308" },
+  { key:"ayah-homeschool",   label:"Ayah · Homeschool",   short:"YH", color:"#92400e" },
+];
 const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const CALL_COLOR="#7da0d4";
 const START=5, END=22, PXH=42, SPAN=END-START, COLH=SPAN*PXH;
-let editMode=false;
-let editingIndex=null;
 const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);const ap=hr>=12?"pm":"am";let x=hr%12;if(x===0)x=12;return m===0?`${x}${ap}`:`${x}:${String(m).padStart(2,"0")}${ap}`;};
-const toHHMM=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return `${String(hr).padStart(2,"0")}:${String(m).padStart(2,"0")}`;};
-const fromHHMM=s=>{const [h,m]=s.split(":").map(Number);return h+m/60;};
+const fromHHMM=s=>{const parts=String(s||"").split(":");if(parts.length<2)return null;const h=Number(parts[0]),m=Number(parts[1]);if(Number.isNaN(h)||Number.isNaN(m))return null;return h+m/60;};
 const round1=n=>+n.toFixed(1);
-function mergeIntervals(list){if(!list.length)return [];const s=[...list].sort((a,b)=>a.start-b.start);const out=[{...s[0]}];for(let i=1;i<s.length;i++){const last=out[out.length-1];if(s[i].start<=last.end)last.end=Math.max(last.end,s[i].end);else out.push({...s[i]});}return out;}
-function freeGaps(busy){const merged=mergeIntervals(busy.filter(b=>b.end>START&&b.start<END).map(b=>({start:Math.max(b.start,START),end:Math.min(b.end,END)})));const gaps=[];let cur=START;for(const b of merged){if(b.start>cur)gaps.push({start:cur,end:b.start});cur=Math.max(cur,b.end);}if(cur<END)gaps.push({start:cur,end:END});return gaps;}
-function busyFor(day,keys){const out=[];keys.forEach(k=>{const L=SCHEDULE[k];if(L&&L.events)L.events.filter(e=>e.day===day).forEach(e=>out.push({start:e.start,end:e.end}));});return out;}
-function subtractExcl(gaps,excl){if(!excl||!excl.length)return gaps;let segs=gaps.map(g=>({...g}));excl.forEach(([ea,eb])=>{const ns=[];segs.forEach(s=>{if(eb<=s.start||ea>=s.end){ns.push(s);}else{if(s.start<ea)ns.push({start:s.start,end:ea});if(eb<s.end)ns.push({start:eb,end:s.end});}});segs=ns;});return segs;}
-function ecomGaps(day,L){if(L.exclDays&&L.exclDays.includes(day))return [];let g=freeGaps(busyFor(day,L.blockedBy));let excl=(L.excl||[]).slice();if(L.exclByDay&&L.exclByDay[day])excl=excl.concat(L.exclByDay[day]);g=subtractExcl(g,excl);const mb=L.minBlock||0;return g.filter(x=>(x.end-x.start)>=mb-1e-9);}
-function buildHead(){document.getElementById("dayHead").innerHTML=`<div></div>`+DAYS.map(d=>`<div class="d${(d==="Sat"||d==="Sun")?" weekend":""}">${d}</div>`).join("");}
-function buildBanners(){let html=`<div></div>`;DAYS.forEach(d=>{const items=BANNERS[d]||[];html+=`<div class="banner-cell">${items.map(b=>`<div class="banner">${b}</div>`).join("")}</div>`;});document.getElementById("bannerRow").innerHTML=html;}
-function buildBody(active){
-  const body=document.getElementById("gridBody");
-  let rail=`<div class="rail" style="height:${COLH}px">`;
-  for(let h=START;h<=END;h++)rail+=`<div class="hr" style="top:${(h-START)*PXH}px">${fmt(h)}</div>`;
-  rail+=`</div>`;
-  const activeEcom=["ecomTaylan","ecomNihal"].filter(k=>active.has(k));
-  const shadeLayer=activeEcom.length===1?SCHEDULE[activeEcom[0]]:null;
-  const cols=DAYS.map(day=>{
-    let inner="";
-    for(let h=START;h<END;h++)inner+=`<div class="hourline" style="top:${(h-START)*PXH}px"></div>`;
-    if(shadeLayer){const gaps=ecomGaps(day,shadeLayer);gaps.forEach(g=>{const top=(g.start-START)*PXH,ht=Math.max((g.end-g.start)*PXH-3,12);inner+=`<div class="freeband" style="top:${top}px;height:${ht}px"></div>`;if((g.end-g.start)>=1){inner+=`<div class="ev dark freeband-open" style="top:${top}px;height:${ht}px;background:${shadeLayer.color};opacity:.92"><div class="t">Open</div><div class="sub">${fmt(g.start)}–${fmt(g.end)}</div></div>`;}});}
-    Object.keys(SCHEDULE).forEach(key=>{
-      const L=SCHEDULE[key];
-      if(L.kind!=="fixed")return;
-      if(!active.has(key))return;
-      L.events.filter(e=>e.day===day&&!e.accent).forEach(e=>{
-        const globalIdx=L.events.indexOf(e);
-        const top=(e.start-START)*PXH,dur=e.end-e.start,ht=Math.max(dur*PXH-3,16);
-        const tiny=dur<=0.5;
-        const clickAttr=editMode?`onclick="openEdit('${key}',${globalIdx})" style="top:${top}px;height:${ht}px;background:${L.color};cursor:pointer"`:`style="top:${top}px;height:${ht}px;background:${L.color}"`;
-        inner+=`<div class="ev${L.dark?" dark":""}${tiny?" short":""}" ${clickAttr}><div class="t">${e.title}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
-      });
-      L.events.filter(e=>e.day===day&&e.accent).forEach(e=>{const top=(e.start-START)*PXH,ht=Math.max((e.end-e.start)*PXH-2,14);inner+=`<div class="ev call" style="top:${top}px;height:${ht}px;background:${CALL_COLOR}"><div class="t">${e.title}</div></div>`;});
-    });
-    const addBtn=editMode?`<button class="add-ev-btn" onclick="openAdd(event,'${day}')">+ Add block</button>`:"";
-    return `<div class="col${(day==="Sat"||day==="Sun")?" weekend":""}" style="height:${COLH}px">${inner}${addBtn}</div>`;
-  }).join("");
-  body.innerHTML=rail+cols;
-}
-function buildTallies(active){
-  const wrap=document.getElementById("tallies");
-  const gridWk=SPAN*7;
-  let tTotal=0,nTotal=0;const tPerDay={},nPerDay={};
-  wrap.innerHTML=Object.keys(SCHEDULE).map(key=>{
-    const L=SCHEDULE[key];const muted=active.has(key)?"":" muted";
-    if(L.kind==="fixed"){const used=L.events.reduce((s,e)=>s+(e.end-e.start),0);const pct=Math.min(used/gridWk*100,100);return `<div class="tally${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(used)}<span class="unit">h used</span></div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div></div>`;}
-    let total=0;const perDay={};DAYS.forEach(d=>{const g=ecomGaps(d,L);const h=g.reduce((s,x)=>s+(x.end-x.start),0);perDay[d]=h;total+=h;});
-    if(key==="ecomTaylan"){tTotal=total;DAYS.forEach(d=>tPerDay[d]=perDay[d]);}
-    if(key==="ecomNihal"){nTotal=total;DAYS.forEach(d=>nPerDay[d]=perDay[d]);}
-    const pct=Math.min(total/gridWk*100,100);
-    const rows=DAYS.map(d=>`<div class="bd-row${perDay[d]===0?" zero":""}"><span>${d}</span><b>${round1(perDay[d])}h</b></div>`).join("");
-    return `<div class="tally ecom${muted}"><div class="th"><span class="swatch" style="background:${L.color}"></span><span class="name">${L.label}</span><span class="chip">${L.short}</span></div><div class="bignum">${round1(total)}<span class="unit">h open</span></div><div class="bar"><i style="width:${pct}%;background:${L.color}"></i></div><div class="breakdown">${rows}</div></div>`;
-  }).join("");
-  const tEl=document.getElementById("t-total");if(tEl)tEl.innerHTML=`${round1(tTotal)}h<small>/ week</small>`;
-  const nEl=document.getElementById("n-total");if(nEl)nEl.innerHTML=`${round1(nTotal)}h<small>/ week</small>`;
-  const tPd=document.getElementById("t-perday");
-  if(tPd&&Object.keys(tPerDay).length){const max=Math.max(...Object.values(tPerDay));tPd.innerHTML="Per-day ecom: "+DAYS.map(d=>{const h=round1(tPerDay[d]||0);return (tPerDay[d]||0)===max?`<b>${d} ${h}h</b>`:`${d} ${h}h`;}).join(" · ");}
-  const nPd=document.getElementById("n-perday");
-  if(nPd&&Object.keys(nPerDay).length){const max=Math.max(...Object.values(nPerDay));nPd.innerHTML="Per-day ecom: "+DAYS.map(d=>{const h=round1(nPerDay[d]||0);if((nPerDay[d]||0)===0)return `${d} —`;return (nPerDay[d]||0)===max?`<b>${d} ${h}h</b>`:`${d} ${h}h`;}).join(" · ");}
-}
-function toggleEditMode(){
-  editMode=!editMode;
-  document.body.classList.toggle("edit-mode",editMode);
-  const btn=document.getElementById("btnEdit");
-  btn.classList.toggle("active",editMode);
-  btn.textContent=editMode?"✅ Done Editing":"✏️ Edit Schedule";
-  document.getElementById("btnSaveExport").classList.toggle("show",editMode);
-  render();
-}
-function openEdit(key,idx){
-  if(!editMode)return;
-  editingIndex={key,idx};
-  const e=SCHEDULE[key].events[idx];
-  document.getElementById("modalTitle").textContent="Edit Block";
-  document.getElementById("mLayer").value=key;
-  document.getElementById("mDay").value=e.day;
-  document.getElementById("mTitle").value=e.title;
-  document.getElementById("mStart").value=toHHMM(e.start);
-  document.getElementById("mEnd").value=toHHMM(e.end);
-  document.getElementById("btnDelete").style.display="block";
-  document.getElementById("modalBg").classList.add("open");
-}
-function openAdd(evt,day){
-  evt.stopPropagation();
-  if(!editMode)return;
-  editingIndex=null;
-  document.getElementById("modalTitle").textContent="Add Block";
-  document.getElementById("mLayer").value="homeTaylan";
-  document.getElementById("mDay").value=day;
-  document.getElementById("mTitle").value="";
-  document.getElementById("mStart").value="09:00";
-  document.getElementById("mEnd").value="10:00";
-  document.getElementById("btnDelete").style.display="none";
-  document.getElementById("modalBg").classList.add("open");
-}
-function closeModal(){document.getElementById("modalBg").classList.remove("open");editingIndex=null;}
-function saveEvent(){
-  const key=document.getElementById("mLayer").value;
-  const day=document.getElementById("mDay").value;
-  const title=document.getElementById("mTitle").value.trim();
-  const start=fromHHMM(document.getElementById("mStart").value);
-  const end=fromHHMM(document.getElementById("mEnd").value);
-  if(!title||end<=start){alert("Check title and times.");return;}
-  if(editingIndex){
-    const {key:oldKey,idx}=editingIndex;
-    if(oldKey===key){SCHEDULE[key].events[idx]={...SCHEDULE[key].events[idx],day,title,start,end};}
-    else{SCHEDULE[oldKey].events.splice(idx,1);SCHEDULE[key].events.push({day,title,start,end});}
-  } else {
-    SCHEDULE[key].events.push({day,title,start,end});
-  }
-  closeModal();render();
-}
-function deleteEvent(){if(!editingIndex)return;const {key,idx}=editingIndex;SCHEDULE[key].events.splice(idx,1);closeModal();render();}
-function showExport(){
-  const s=JSON.stringify(SCHEDULE,null,2);
-  const current=document.documentElement.outerHTML;
-  const updated=current.replace(/let SCHEDULE = \{[\s\S]*?\};\nconst BANNERS/,'let SCHEDULE = '+s+';\nconst BANNERS');
-  const blob=new Blob([updated],{type:"text/html"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");a.href=url;a.download="index.html";a.click();
-  URL.revokeObjectURL(url);
-  document.getElementById("exportPanel").classList.add("show");
-  document.getElementById("exportPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function copyCmd(){
-  navigator.clipboard.writeText(document.getElementById("pushCmd").textContent);
-  const btn=document.getElementById("btnCopy");btn.textContent="Copied ✓";btn.classList.add("copied");
-  setTimeout(()=>{btn.textContent="Copy command";btn.classList.remove("copied");},2000);
-}
-document.getElementById("modalBg").addEventListener("click",e=>{if(e.target===document.getElementById("modalBg"))closeModal();});
-const ALL_KEYS=Object.keys(SCHEDULE);
+
+let EVENTS_BY_CATEGORY={};
+CATEGORIES.forEach(c=>EVENTS_BY_CATEGORY[c.key]=[]);
+const ALL_KEYS=CATEGORIES.map(c=>c.key);
 let active=new Set(ALL_KEYS);
+
 const toggleSet=document.getElementById("toggleSet");
-function syncButtons(){toggleSet.querySelectorAll(".tg").forEach(btn=>{const k=btn.dataset.key;if(k==="all"){btn.setAttribute("aria-pressed",active.size===ALL_KEYS.length?"true":"false");}else{btn.setAttribute("aria-pressed",active.has(k)?"true":"false");}});}
-function render(){buildBody(active);buildTallies(active);syncButtons();}
+function buildToggles(){
+  let html=`<button class="tg tg-all" data-key="all" aria-pressed="true">All</button>`;
+  html+=CATEGORIES.map(c=>`<button class="tg" data-key="${c.key}" aria-pressed="true"><span class="dot" style="background:${c.color}"></span>${c.label}</button>`).join("");
+  toggleSet.innerHTML=html;
+}
+function syncButtons(){
+  toggleSet.querySelectorAll(".tg").forEach(btn=>{
+    const k=btn.dataset.key;
+    if(k==="all"){btn.setAttribute("aria-pressed",active.size===ALL_KEYS.length?"true":"false");}
+    else{btn.setAttribute("aria-pressed",active.has(k)?"true":"false");}
+  });
+}
 toggleSet.addEventListener("click",e=>{
   const btn=e.target.closest(".tg");if(!btn)return;
   const k=btn.dataset.key;
   if(k==="all"){active=new Set(ALL_KEYS);}
-  else{if(active.size===ALL_KEYS.length){active=new Set([k]);}else if(active.has(k)){active.delete(k);if(active.size===0)active=new Set(ALL_KEYS);}else{active.add(k);}}
+  else{
+    if(active.size===ALL_KEYS.length){active=new Set([k]);}
+    else if(active.has(k)){active.delete(k);if(active.size===0)active=new Set(ALL_KEYS);}
+    else{active.add(k);}
+  }
   render();
 });
-buildHead();buildBanners();render();
+
+function buildHead(){document.getElementById("dayHead").innerHTML=`<div></div>`+DAYS.map(d=>`<div class="d${(d==="Sat"||d==="Sun")?" weekend":""}">${d}</div>`).join("");}
+
+function buildBody(){
+  const body=document.getElementById("gridBody");
+  let rail=`<div class="rail" style="height:${COLH}px">`;
+  for(let h=START;h<=END;h++)rail+=`<div class="hr" style="top:${(h-START)*PXH}px">${fmt(h)}</div>`;
+  rail+=`</div>`;
+  const cols=DAYS.map(day=>{
+    let inner="";
+    for(let h=START;h<END;h++)inner+=`<div class="hourline" style="top:${(h-START)*PXH}px"></div>`;
+    CATEGORIES.forEach(cat=>{
+      if(!active.has(cat.key))return;
+      EVENTS_BY_CATEGORY[cat.key].filter(e=>e.day===day).forEach(e=>{
+        const top=(e.start-START)*PXH,dur=e.end-e.start,ht=Math.max(dur*PXH-3,16);
+        const tiny=dur<=0.5;
+        inner+=`<div class="ev${tiny?" short":""}" style="top:${top}px;height:${ht}px;background:${cat.color}"><div class="t">${e.title}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
+      });
+    });
+    return `<div class="col${(day==="Sat"||day==="Sun")?" weekend":""}" style="height:${COLH}px">${inner}</div>`;
+  }).join("");
+  body.innerHTML=rail+cols;
+}
+
+function buildTallies(){
+  const wrap=document.getElementById("tallies");
+  const gridWk=SPAN*7;
+  wrap.innerHTML=CATEGORIES.map(cat=>{
+    const muted=active.has(cat.key)?"":" muted";
+    const events=EVENTS_BY_CATEGORY[cat.key];
+    const used=events.reduce((s,e)=>s+(e.end-e.start),0);
+    const pct=Math.min(used/gridWk*100,100);
+    return `<div class="tally${muted}"><div class="th"><span class="swatch" style="background:${cat.color}"></span><span class="name">${cat.label}</span><span class="chip">${cat.short}</span></div><div class="bignum">${round1(used)}<span class="unit">h</span></div><div class="bar"><i style="width:${pct}%;background:${cat.color}"></i></div></div>`;
+  }).join("");
+}
+
+function summarizeCategory(key){
+  const perDay={};DAYS.forEach(d=>perDay[d]=0);
+  EVENTS_BY_CATEGORY[key].forEach(e=>{if(perDay[e.day]!==undefined)perDay[e.day]+=(e.end-e.start);});
+  const total=DAYS.reduce((s,d)=>s+perDay[d],0);
+  const withHours=DAYS.map(d=>({day:d,hours:perDay[d]})).filter(x=>x.hours>0);
+  const sorted=[...withHours].sort((a,b)=>a.hours-b.hours);
+  return {perDay,total,thin:sorted.slice(0,2),deep:sorted.slice(-2).reverse()};
+}
+function fmtDaysList(list){return list.length?list.map(x=>x.day).join(" · "):"—";}
+function fmtRange(list){
+  if(!list.length)return "";
+  const vals=list.map(x=>round1(x.hours));
+  const mn=Math.min(...vals),mx=Math.max(...vals);
+  return mn===mx?`${mn}h`:`${mn}–${mx}h`;
+}
+function renderPerDayLine(perDay){
+  const vals=Object.values(perDay);
+  const max=vals.length?Math.max(...vals):0;
+  return DAYS.map(d=>{
+    const h=round1(perDay[d]||0);
+    if(h===0)return `${d} —`;
+    return h===max&&max>0?`<b>${d} ${h}h</b>`:`${d} ${h}h`;
+  }).join(" · ");
+}
+function renderNotes(){
+  const t=summarizeCategory("taylan-ecom");
+  document.getElementById("t-total").innerHTML=`${round1(t.total)}h<small>/ week</small>`;
+  document.getElementById("t-thin").textContent=fmtDaysList(t.thin)+(t.thin.length?` (${fmtRange(t.thin)})`:"");
+  document.getElementById("t-deep").textContent=fmtDaysList(t.deep)+(t.deep.length?` (${fmtRange(t.deep)})`:"");
+  document.getElementById("t-perday").innerHTML="Per-day ecom: "+renderPerDayLine(t.perDay);
+
+  const n=summarizeCategory("nihal-ecom");
+  document.getElementById("n-total").innerHTML=`${round1(n.total)}h<small>/ week</small>`;
+  document.getElementById("n-thin").textContent=fmtDaysList(n.thin)+(n.thin.length?` (${fmtRange(n.thin)})`:"");
+  document.getElementById("n-deep").textContent=fmtDaysList(n.deep)+(n.deep.length?` (${fmtRange(n.deep)})`:"");
+  document.getElementById("n-perday").innerHTML="Per-day ecom: "+renderPerDayLine(n.perDay);
+}
+
+function render(){buildBody();buildTallies();renderNotes();syncButtons();}
+
+function showState(state){
+  document.getElementById("loadingState").style.display=state==="loading"?"block":"none";
+  document.getElementById("errorState").style.display=state==="error"?"block":"none";
+  document.getElementById("boardContent").style.display=state==="ready"?"block":"none";
+}
+
+async function loadSchedule(){
+  showState("loading");
+  document.getElementById("partialWarn").style.display="none";
+  try{
+    const res=await fetch("/.netlify/functions/get-schedule");
+    const json=await res.json();
+    if(!res.ok||json.error)throw new Error(json.error||`HTTP ${res.status}`);
+    EVENTS_BY_CATEGORY={};
+    CATEGORIES.forEach(c=>EVENTS_BY_CATEGORY[c.key]=[]);
+    (json.blocks||[]).forEach(b=>{
+      const start=fromHHMM(b.start),end=fromHHMM(b.end);
+      if(start===null||end===null||end<=start)return;
+      if(!EVENTS_BY_CATEGORY[b.category])return;
+      EVENTS_BY_CATEGORY[b.category].push({day:b.day,start,end,title:b.title,notes:b.notes});
+    });
+    if(json.errors&&json.errors.length){
+      const warn=document.getElementById("partialWarn");
+      warn.textContent=`Some layers failed to load: ${json.errors.map(e=>e.category).join(", ")}`;
+      warn.style.display="block";
+    }
+    showState("ready");
+    render();
+  }catch(err){
+    console.error("Failed to load schedule",err);
+    showState("error");
+  }
+}
+document.getElementById("retryBtn").addEventListener("click",loadSchedule);
+
+buildToggles();
+buildHead();
+loadSchedule();
 </script>
 </body>
 </html>
