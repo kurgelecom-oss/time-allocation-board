@@ -169,6 +169,7 @@ const START=5, END=22, PXH=42, SPAN=END-START, COLH=SPAN*PXH;
 const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);const ap=hr>=12?"pm":"am";let x=hr%12;if(x===0)x=12;return m===0?`${x}${ap}`:`${x}:${String(m).padStart(2,"0")}${ap}`;};
 const fromHHMM=s=>{const parts=String(s||"").split(":");if(parts.length<2)return null;const h=Number(parts[0]),m=Number(parts[1]);if(Number.isNaN(h)||Number.isNaN(m))return null;return h+m/60;};
 const round1=n=>+n.toFixed(1);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 let EVENTS_BY_CATEGORY={};
 CATEGORIES.forEach(c=>EVENTS_BY_CATEGORY[c.key]=[]);
@@ -215,7 +216,7 @@ function buildBody(){
       EVENTS_BY_CATEGORY[cat.key].filter(e=>e.day===day).forEach(e=>{
         const top=(e.start-START)*PXH,dur=e.end-e.start,ht=Math.max(dur*PXH-3,16);
         const tiny=dur<=0.5;
-        inner+=`<div class="ev${tiny?" short":""}" style="top:${top}px;height:${ht}px;background:${cat.color}"><div class="t">${e.title}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
+        inner+=`<div class="ev${tiny?" short":""}" style="top:${top}px;height:${ht}px;background:${cat.color}"><div class="t">${esc(e.title)}</div>${tiny?"":`<div class="sub">${fmt(e.start)}–${fmt(e.end)}</div>`}</div>`;
       });
     });
     return `<div class="col${(day==="Sat"||day==="Sun")?" weekend":""}" style="height:${COLH}px">${inner}</div>`;
