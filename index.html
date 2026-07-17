@@ -20,9 +20,9 @@
 
   /* ── TOP NAV ─────────────────────────────────────────────────────
      Canonical nav shared across all six surfaces. Chrome uses this
-     board's own tokens; the active cue is the canonical #00d9ff cyan,
-     which is deliberately foreign here so the cue reads identically
-     on every surface. */
+     board's own tokens; the active cue is the canonical #00d4ff cyan
+     (family-dashboard's --cyan), deliberately foreign here so the cue
+     reads identically on every surface. */
   .topnav{
     position:fixed;
     top:0;left:0;right:0;
@@ -51,13 +51,13 @@
     transition:color .14s ease;
   }
   .topnav-link:hover{color:var(--ink);}
-  .topnav-link.active{color:#00d9ff;}
+  .topnav-link.active{color:#00d4ff;}
   .topnav-link.active::after{
     content:"";
     position:absolute;
     left:10px;right:10px;bottom:0;
     height:2px;
-    background:#00d9ff;
+    background:#00d4ff;
     border-radius:1px 1px 0 0;
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
