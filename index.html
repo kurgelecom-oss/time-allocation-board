@@ -15,7 +15,51 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:var(--bg);color:var(--ink);}
-  body{font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:16px 24px 40px;min-height:100vh;}
+  /* padding-top clears the fixed 40px nav and keeps the original 16px of air. */
+  body{font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:56px 24px 40px;min-height:100vh;}
+
+  /* ── TOP NAV ─────────────────────────────────────────────────────
+     Canonical nav shared across all six surfaces. Chrome uses this
+     board's own tokens; the active cue is the canonical #00d9ff cyan,
+     which is deliberately foreign here so the cue reads identically
+     on every surface. */
+  .topnav{
+    position:fixed;
+    top:0;left:0;right:0;
+    height:40px;
+    z-index:800; /* nothing else on this page exceeds 5 */
+    display:flex;
+    align-items:center;
+    gap:2px;
+    padding:0 10px;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav-link{
+    position:relative;
+    flex-shrink:0;
+    padding:0 10px;
+    line-height:40px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-dim);
+    text-decoration:none;
+    white-space:nowrap;
+    transition:color .14s ease;
+  }
+  .topnav-link:hover{color:var(--ink);}
+  .topnav-link.active{color:#00d9ff;}
+  .topnav-link.active::after{
+    content:"";
+    position:absolute;
+    left:10px;right:10px;bottom:0;
+    height:2px;
+    background:#00d9ff;
+    border-radius:1px 1px 0 0;
+  }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
   .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;max-width:1320px;margin:0 auto 12px;}
   .brand h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0;line-height:1;}
@@ -82,6 +126,14 @@
 </style>
 </head>
 <body>
+<nav class="topnav">
+  <a class="topnav-link" href="https://kurgel-dashboard.netlify.app/">Family Dashboard</a>
+  <a class="topnav-link" href="https://ecom-launchpad-mentor.netlify.app/">ECOM Launchpad</a>
+  <a class="topnav-link" href="https://kurgel-dashboard.netlify.app/week">Homeschool Week</a>
+  <a class="topnav-link" href="https://ansar-habits-tracker.netlify.app/">Ansar · ANSAR FC</a>
+  <a class="topnav-link" href="https://time-allocation-board.netlify.app/">Time Allocation Board</a>
+  <a class="topnav-link" href="https://luxury-kringle-cf4171.netlify.app/">Link Board</a>
+</nav>
 <header class="top">
   <div class="brand">
     <h1>Time Allocation Board</h1>
@@ -151,6 +203,17 @@
 </main>
 <p class="hint">Schedule is managed in Notion &mdash; edits made there are reflected here (cached up to a minute).</p>
 <script>
+// Mark the nav link for whichever surface we're on. "/week/" and "/week" are
+// the same page; "" is "/".
+(() => {
+  const normPath = p => { const t = p.replace(/\/+$/, ""); return t === "" ? "/" : t; };
+  const host = location.hostname, path = normPath(location.pathname);
+  document.querySelectorAll(".topnav-link").forEach(a => {
+    const u = new URL(a.href);
+    if (u.hostname === host && normPath(u.pathname) === path) a.classList.add("active");
+  });
+})();
+
 const CATEGORIES = [
   { key:"taylan-work",       label:"Taylan · Work",       short:"TW", color:"#3b82f6" },
   { key:"taylan-personal",   label:"Taylan · Personal",   short:"TP", color:"#f97316" },
